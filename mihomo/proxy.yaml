@@ -1,0 +1,12 @@
+# 明确需代理的规则
+payload:
+  - DOMAIN-SUFFIX,thetvdb.com
+  - DOMAIN-SUFFIX,themoviedb.org
+  - DOMAIN-SUFFIX,prod.actual.battle.net
+  - DOMAIN-SUFFIX,gstatic.com
+  - DOMAIN-SUFFIX,societas-test.microsoft.com
+  - DOMAIN-SUFFIX,societas-lab.microsoft.com
+  - DOMAIN-SUFFIX,societas.microsoft.com
+  - DOMAIN,stride.microsoft.com
+  - DOMAIN,societas.microsoft.com
+  - DOMAIN,dler.cloud
