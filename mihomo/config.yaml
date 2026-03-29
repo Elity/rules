@@ -126,10 +126,10 @@ rules:
   - RULE-SET,elity_direct,DIRECT
   - RULE-SET,elity_proxy,🚀 默认代理
   - RULE-SET,proxylite,🚀 默认代理
+  - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,google_domain,🍀 Google
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
   - RULE-SET,ai,🤖 AI
-  - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,onedrive_domain,🐬 OneDrive
   - RULE-SET,microsoft_domain,🪟 Microsoft
   - RULE-SET,apple_domain,DIRECT
