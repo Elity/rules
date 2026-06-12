@@ -10,3 +10,15 @@ payload:
   - DOMAIN,stride.microsoft.com
   - DOMAIN,societas.microsoft.com
   - DOMAIN,dler.cloud
+  # ===== 老虎证券 start ====
+  - DOMAIN-SUFFIX,skytigris.cn
+  - DOMAIN-SUFFIX,itigergrowtha.com
+  - DOMAIN-SUFFIX,itiger.com
+  - DOMAIN-SUFFIX,laohu8.com
+  - DOMAIN-SUFFIX,itigerup.com
+  - DOMAIN-SUFFIX,tigersecurities.com
+  - DOMAIN-SUFFIX,tigerfintech.com
+  - DOMAIN-SUFFIX,tigerbrokers.com
+  - DOMAIN-SUFFIX,tigerbrokers.com.sg
+  - DOMAIN-SUFFIX,tigerbrokers.com.au
+  # ===== 老虎证券 end ====
