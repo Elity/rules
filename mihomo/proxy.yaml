@@ -4,11 +4,6 @@ payload:
   - DOMAIN-SUFFIX,themoviedb.org
   - DOMAIN-SUFFIX,prod.actual.battle.net
   - DOMAIN-SUFFIX,gstatic.com
-  - DOMAIN-SUFFIX,societas-test.microsoft.com
-  - DOMAIN-SUFFIX,societas-lab.microsoft.com
-  - DOMAIN-SUFFIX,societas.microsoft.com
-  - DOMAIN,stride.microsoft.com
-  - DOMAIN,societas.microsoft.com
   - DOMAIN,dler.cloud
   # ===== 老虎证券 start ====
   - DOMAIN-SUFFIX,skytigris.cn
