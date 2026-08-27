@@ -4,6 +4,7 @@ payload:
   - DOMAIN-SUFFIX,themoviedb.org
   - DOMAIN-SUFFIX,prod.actual.battle.net
   - DOMAIN-SUFFIX,gstatic.com
+  - DOMAIN-SUFFIX,xmoviebot.com
   - DOMAIN,dler.cloud
   # ===== 老虎证券 start ====
   - DOMAIN-SUFFIX,skytigris.cn
