@@ -76,6 +76,7 @@ dns:
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - "rule-set:fakeipfilter_domain"
+    - "+.wvd.microsoft.com"
   default-nameserver:
     - https://223.5.5.5/dns-query
   proxy-server-nameserver:
@@ -84,15 +85,21 @@ dns:
   nameserver:
     - 222.246.129.80
     - 59.51.78.210
+  # Dler 节点域名只有机场私有 DNS 能解析，独占给它，避免公共 DNS 并发抢答
+  # 只放私有域名：公网可解析的节点域名放进来反而会解析为空
+  nameserver-policy:
+    "+.cloud-nodes.com": 124.221.68.73:1053
+  proxy-server-nameserver-policy:
+    "+.cloud-nodes.com": 124.221.68.73:1053
  
 # 出站策略，根据自己情况调整每个策略里分组排序，增删都可以，比如把美国自动放到第一个，比如删除香港故转，注意别漏掉表情逗号等。
 # 如果相应分组没有筛选到对应的国家，请根据自己节点名字调整筛选关键字。
 # 没有再使用锚点，是考虑很多新手修改难度，这样新手修改某个分组更容易些。
 proxy-groups:
   - {name: 🚀 默认代理, type: select, proxies: [♻️ 香港自动, 🔯 香港故转, 🔯 日本故转, 🔯 台湾故转, 🔯 狮城故转, 🔯 美国故转, 🔯 韩国故转, ♻️ 日本自动, ♻️ 台湾自动, ♻️ 狮城自动, ♻️ 美国自动, ♻️ 韩国自动, ♻️ 自动选择, 🌐 全部节点, DIRECT]}
-  - {name: 💻 DevBox, type: select, proxies: [♻️ 日本自动, ♻️ 香港自动, 直连]}
+  - {name: 💻 DevBox, type: select, proxies: [♻️ 日本自动, ♻️ 香港自动, DIRECT]}
   - {name: 📹 YouTube, type: select, proxies: [♻️ 香港自动, 🔯 香港故转, 🔯 日本故转, 🔯 台湾故转, 🔯 狮城故转, 🔯 美国故转, 🔯 韩国故转, ♻️ 美国自动, ♻️ 日本自动, ♻️ 台湾自动, ♻️ 狮城自动, ♻️ 韩国自动, ♻️ 自动选择, 🌐 全部节点, DIRECT]}
-  - {name: 🍀 Google, type: fallback, interval: 300, proxies: [🔯 美国故转, ♻️ 美国自动, 🔯 日本故转, ♻️ 日本自动, 🔯 台湾故转, ♻️ 台湾自动, 🔯 狮城故转, ♻️ 狮城自动, 🔯 韩国故转, ♻️ 韩国自动, ♻️ 自动选择]}
+  - {name: 🍀 Google, type: fallback, interval: 60, lazy: false, proxies: [♻️ 香港自动, 🔯 日本故转, ♻️ 日本自动, 🔯 台湾故转, ♻️ 台湾自动, 🔯 狮城故转, ♻️ 狮城自动, 🔯 韩国故转, ♻️ 韩国自动, 🔯 美国故转, ♻️ 美国自动, ♻️ 自动选择]}
   - {name: 🤖 AI, type: select, proxies: [🔯 日本故转, 🔯 台湾故转, 🔯 狮城故转, 🔯 美国故转, 🔯 韩国故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 台湾自动, ♻️ 狮城自动, ♻️ 美国自动, ♻️ 韩国自动, ♻️ 自动选择, 🌐 全部节点, DIRECT]}
   - {name: 👨🏿‍💻 GitHub, type: select, proxies: [♻️ 香港自动, 🔯 香港故转, 🔯 日本故转, 🔯 台湾故转, 🔯 狮城故转, 🔯 美国故转, 🔯 韩国故转, ♻️ 日本自动, ♻️ 台湾自动, ♻️ 狮城自动, ♻️ 美国自动, ♻️ 韩国自动, ♻️ 自动选择, 🌐 全部节点, DIRECT]}
   - {name: 🐬 OneDrive, type: select, proxies: [🔯 日本故转, 🔯 台湾故转, 🔯 狮城故转, 🔯 美国故转, 🔯 韩国故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 台湾自动, ♻️ 狮城自动, ♻️ 美国自动, ♻️ 韩国自动, ♻️ 自动选择, 🌐 全部节点, DIRECT]}
@@ -108,19 +115,19 @@ proxy-groups:
   - {name: 🇸🇬 狮城节点, type: select, include-all: true, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
   - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|韩|新|日)).)*$"}
   - {name: 🇰🇷 韩国节点, type: select, include-all: true, filter: "(?=.*(韩|KR|(?i)Korea|(?i)KOR))^((?!(港|台|日|新|美)).)*$"}
-  - {name: 🔯 香港故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: 🔯 日本故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美|尼日|Nigeria)).)*$"}
-  - {name: 🔯 台湾故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(台|TW|(?i)Taiwan))^((?!(港|日|韩|新|美)).)*$"}
-  - {name: 🔯 狮城故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
-  - {name: 🔯 美国故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|韩|新|日)).)*$"}
-  - {name: 🔯 韩国故转, type: fallback, include-all: true, interval: 300, filter: "(?=.*(韩|KR|(?i)Korea|(?i)KOR))^((?!(港|台|日|新|美)).)*$"}
-  - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美|尼日|Nigeria)).)*$"}
-  - {name: ♻️ 台湾自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(台|TW|(?i)Taiwan))^((?!(港|日|韩|新|美)).)*$"}
-  - {name: ♻️ 狮城自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$"}
-  - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
-  - {name: ♻️ 韩国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(韩|KR|(?i)Korea|(?i)KOR))^((?!(港|台|日|新|美)).)*$"}
-  - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
+  - {name: 🔯 香港故转, type: fallback, include-all: true, interval: 180, timeout: 3000, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
+  - {name: 🔯 日本故转, type: fallback, include-all: true, interval: 180, timeout: 3000, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美|尼日|Nigeria)).)*$"}
+  - {name: 🔯 台湾故转, type: fallback, include-all: true, interval: 180, timeout: 3000, filter: "(?=.*(台|TW|(?i)Taiwan))^((?!(港|日|韩|新|美)).)*$"}
+  - {name: 🔯 狮城故转, type: fallback, include-all: true, interval: 180, timeout: 3000, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(台|日|韩|深|美)).)*$"}
+  - {name: 🔯 美国故转, type: fallback, include-all: true, interval: 180, timeout: 3000, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|韩|新|日)).)*$"}
+  - {name: 🔯 韩国故转, type: fallback, include-all: true, interval: 180, timeout: 3000, filter: "(?=.*(韩|KR|(?i)Korea|(?i)KOR))^((?!(港|台|日|新|美)).)*$"}
+  - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 50, interval: 60, lazy: false, timeout: 3000, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
+  - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 50, interval: 180, timeout: 3000, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美|尼日|Nigeria)).)*$"}
+  - {name: ♻️ 台湾自动, type: url-test, include-all: true, tolerance: 50, interval: 180, timeout: 3000, filter: "(?=.*(台|TW|(?i)Taiwan))^((?!(港|日|韩|新|美)).)*$"}
+  - {name: ♻️ 狮城自动, type: url-test, include-all: true, tolerance: 50, interval: 180, timeout: 3000, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$"}
+  - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 50, interval: 180, timeout: 3000, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
+  - {name: ♻️ 韩国自动, type: url-test, include-all: true, tolerance: 50, interval: 180, timeout: 3000, filter: "(?=.*(韩|KR|(?i)Korea|(?i)KOR))^((?!(港|台|日|新|美)).)*$"}
+  - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 50, interval: 60, timeout: 3000, filter: "(?=.*(港|HK|(?i)hong|台|TW|(?i)taiwan|日本|JP|(?i)japan|新加坡|坡|狮城|SG|(?i)singapore|韩|KR|(?i)korea))^((?!(直连|官网|到期|剩余|尼日|(?i)nigeria)).)*$"}
   - {name: 🌐 全部节点, type: select, include-all: true}
 
 # 规则匹配
