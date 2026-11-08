@@ -127,6 +127,8 @@ proxy-groups:
 rules:
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
+  # 拦截 PCDN / 遥测等
+  - RULE-SET,elity_reject,REJECT
   # DevBox 网关及服务
   - DOMAIN-SUFFIX,wvd.microsoft.com,💻 DevBox
   - DOMAIN-SUFFIX,windows.cloud.microsoft,💻 DevBox
@@ -138,6 +140,8 @@ rules:
   - IP-CIDR,51.5.0.0/16,💻 DevBox,no-resolve
   - RULE-SET,elity_direct,DIRECT
   - RULE-SET,elity_proxy,🚀 默认代理
+  # 券商（含 IP-CIDR，no-resolve 避免域名请求在此提前触发 DNS 解析）
+  - RULE-SET,broker,🚀 默认代理,no-resolve
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,google_domain,🍀 Google
@@ -170,7 +174,9 @@ rule-providers:
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
   elity_direct: { type: http, interval: 86400, behavior: classical, format: yaml, url: "https://raw.githubusercontent.com/Elity/rules/main/mihomo/direct.yaml"}
   elity_proxy: { type: http, interval: 86400, behavior: classical, format: yaml, url: "https://raw.githubusercontent.com/Elity/rules/main/mihomo/proxy.yaml"}
+  elity_reject: { type: http, interval: 86400, behavior: classical, format: yaml, url: "https://raw.githubusercontent.com/Elity/rules/main/mihomo/reject.yaml"}
   proxylite: { <<: *class, url: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/rules/proxy.list"}
+  broker: { type: http, interval: 86400, behavior: classical, format: yaml, url: "https://raw.githubusercontent.com/forecho/broker-rules/main/rule/Clash/Broker.yaml"}
   ai: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs" }
   youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
