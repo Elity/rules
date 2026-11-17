@@ -38,3 +38,4 @@ payload:
   - DOMAIN-SUFFIX,tailscale.com
   - DOMAIN-SUFFIX,tailscaleusercontent.com
   - DOMAIN-SUFFIX,ts.net
+  - DOMAIN-SUFFIX,hdwing.org
